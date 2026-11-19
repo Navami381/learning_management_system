@@ -6,8 +6,8 @@ from rest_framework import authentication,permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from accounts.models import User,StudentProfile
-from accounts.serializers import UserSerializer,StudentSerializer
+from accounts.models import User,StudentProfile,TrainerProfile
+from accounts.serializers import UserSerializer,StudentSerializer,TrainerProfileSerializer
 from accounts.permissions import IsAdminUser
 
 # Create your views here.
@@ -35,28 +35,38 @@ class StudentCreateView(APIView):
         else:
             return Response(data=serializer_instance.errors)
 
-class ProfileUpdateView(APIView):
+class TrainerProfileUpdateView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
-    def put(self, request):
-        serializer_instance = UserSerializer(
-            data=request.data,
-            instance=request.user
-        )
+    def put(self,request):
 
-        if serializer_instance.is_valid():
+        form_data=request.data
+
+        trainer_obj=TrainerProfile.objects.get(trainer=request.user)
+
+        serializer_instance=TrainerProfileSerializer(data=form_data,instance=trainer_obj)
+
+        if serializer_instance.is_valid(): 
+
             serializer_instance.save()
+
             return Response(data=serializer_instance.data)
 
-        return Response(data=serializer_instance.errors)
+        else:
+
+            return Response(data=serializer_instance.errors)
 
     
 
-class ProfileMeView(APIView):
+class TrainerProfileMeView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated, IsAdminUser]
 
-    def get(self, request):
-        serializer_instance = UserSerializer(request.user)
+    def get(self,request):
+
+        qs=TrainerProfile.objects.get(trainer=request.user)
+
+        serializer_instance=TrainerProfileSerializer(qs)
+
         return Response(data=serializer_instance.data)
