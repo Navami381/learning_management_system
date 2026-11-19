@@ -4,8 +4,70 @@ POST http://127.0.0.1:8000/accounts/admin/register/
 Content-Type: application/json
 
 {
-    "username":"admin",
-    "email":"admin@gmail.com",
-    "password":"admin123",
-    "phone":7654283929
+    "username":"sajay",
+    "email":"sajay@gmail.com",
+    "password":"sajay123",
+    "phone":7654283920
 }
+
+#api call for creating token for user account
+###
+POST http://127.0.0.1:8000/accounts/token/
+Content-Type: application/json
+
+{
+    "username":"sajay",
+    "password":"sajay123"
+}
+
+
+#api call for creating student account
+###
+POST http://127.0.0.1:8000/accounts/student/register/
+Content-Type: application/json
+
+{
+    "username":"anjith",
+    "email":"anjithkallada1500@gmail.com",
+    "password":"anjith123",
+    "phone":"9865423139"
+}
+
+#api call for jwt pair for student
+###
+POST http://127.0.0.1:8000/accounts/jwt/token/
+Content-Type:  application/json
+
+{
+    "username":"9865423139",
+    "password":"anjith123"
+}
+
+#api call for refresh token
+###
+POST http://127.0.0.1:8000/accounts/jwt/token/refresh/
+Content-Type: application/json
+
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc5NTE0MTk1MSwiaWF0IjoxNzk1MDU1NTUxLCJqdGkiOiJlMzMxYmU3NmJjNzE0OGI2YjVhMTQ2NTY5NWUwYmIyYiIsInVzZXJfaWQiOiIyIn0.I9Ig_Dbvd8ByE1E9ImzJlCa0Am3HA7PgF6sODdSHXCE"
+}
+
+
+#api call for update trainer profile
+###
+PUT http://127.0.0.1:8000/accounts/profile/complete/
+Content-Type: application/json
+Authorization: Token fa6e0705d456ecc381883aef3b577cab1b92aa7b
+
+{
+    "username":"sajay",
+    "email":"sajay@gmail.com",
+    "password":"sajay123",
+    "phone":7654283980
+}
+
+#api call for details of trainer
+###
+GET http://127.0.0.1:8000/accounts/profile/me/
+Accept: application/json
+Authorization: Token fa6e0705d456ecc381883aef3b577cab1b92aa7b
